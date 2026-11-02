@@ -1,0 +1,13 @@
+{
+  "name": "chw-uk-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tailwind build for the CHW UK Django site",
+  "scripts": {
+    "build": "tailwindcss -i ./assets/tailwind.input.css -o ./core/static/core/tailwind.css --minify",
+    "dev": "tailwindcss -i ./assets/tailwind.input.css -o ./core/static/core/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

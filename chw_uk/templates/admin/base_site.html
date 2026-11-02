@@ -1,0 +1,20 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | CHW UK Admin{% endblock %}
+
+{% block extrastyle %}{{ block.super }}
+<link rel="icon" href="{% static 'core/img/logo.jpg' %}">
+<link rel="stylesheet" href="{% static 'core/admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+  <a href="{% url 'admin:index' %}" class="chw-brand">
+    <img src="{% static 'core/img/logo.jpg' %}" alt="">
+    <span><strong>CHW United Kingdom</strong><small>Admin panel</small></span>
+  </a>
+</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

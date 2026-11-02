@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+{% block title %}Past programmes · {{ syn.org_name }} {{ syn.branch }}{% endblock %}
+{% block content %}
+<section class="pt-32 pb-24">
+  <div class="max-w-3xl mx-auto px-5">
+    <p class="text-gold-600 uppercase tracking-[.3em] text-xs font-semibold">Archive</p>
+    <h1 class="font-serif text-5xl mt-2">Shabbat programmes</h1>
+    <div class="mt-10 divide-y divide-navy-900/10 bg-white rounded-2xl border border-navy-900/10">
+      {% for p in programs %}
+      <a href="{% url 'program_detail' p.pk %}" class="flex items-center justify-between px-6 py-4 hover:bg-cream">
+        <span>
+          <span class="font-semibold">{{ p.service_date|date:"l, j F Y" }}</span>
+          <span class="block text-sm text-navy-700">{{ p.title }}</span>
+        </span>
+        <span class="text-gold-600">View →</span>
+      </a>
+      {% empty %}
+      <p class="px-6 py-8 text-navy-800">No programmes have been published yet.</p>
+      {% endfor %}
+    </div>
+    <a href="{% url 'home' %}" class="inline-block mt-8 underline underline-offset-4 hover:text-gold-600">← Back to home</a>
+  </div>
+</section>
+{% endblock %}

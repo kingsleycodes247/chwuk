@@ -1,0 +1,38 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+<section class="chw-dash">
+  <div class="chw-welcome">
+    <p class="chw-eyebrow">Welcome{% if user.first_name %}, {{ user.first_name }}{% endif %}</p>
+    <h2>Keep this week's programme up to date</h2>
+    <p>Next Shabbat is <strong>{{ dash_next_saturday|date:"l, j F Y" }}</strong>.
+      {% if dash_next_program %}
+        {% if dash_next_program.is_published %}
+          Its programme is <span class="chw-pill chw-ok">published</span> and showing on the website.
+        {% else %}
+          Its programme is saved as a <span class="chw-pill chw-warn">draft</span> and is hidden from visitors.
+        {% endif %}
+      {% else %}
+        <span class="chw-pill chw-warn">No programme yet</span> for that date.
+      {% endif %}
+    </p>
+    <div class="chw-actions">
+      {% if dash_next_program %}
+      <a class="chw-btn chw-btn-gold" href="{% url 'admin:core_worshipprogram_change' dash_next_program.pk %}">Edit this week's programme</a>
+      {% else %}
+      <a class="chw-btn chw-btn-gold" href="{% url 'admin:core_worshipprogram_add' %}">Upload this week's programme</a>
+      {% endif %}
+      <a class="chw-btn chw-btn-ghost" href="{% url 'home' %}" target="_blank" rel="noopener">View website ↗</a>
+    </div>
+  </div>
+
+  <div class="chw-tiles">
+    <a class="chw-tile" href="{% url 'admin:core_worshipprogram_changelist' %}"><span>📅</span><strong>All programmes</strong><small>Drafts, copy to next week</small></a>
+    <a class="chw-tile" href="{% url 'admin:core_sitesetting_changelist' %}"><span>🖼️</span><strong>Hero &amp; site settings</strong><small>Images, service time, contacts</small></a>
+    <a class="chw-tile" href="{% url 'admin:core_galleryimage_changelist' %}"><span>📸</span><strong>Gallery</strong><small>Upload Canva images</small></a>
+    <a class="chw-tile" href="{% url 'admin:core_contactmessage_changelist' %}"><span>✉️</span><strong>Messages</strong><small>{{ dash_unread_messages|default:0 }} unread</small></a>
+  </div>
+</section>
+
+{{ block.super }}
+{% endblock %}

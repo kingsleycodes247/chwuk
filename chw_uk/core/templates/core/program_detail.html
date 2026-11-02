@@ -1,0 +1,13 @@
+{% extends "core/base.html" %}
+{% block title %}{{ program.title }} · {{ program.service_date|date:"j M Y" }}{% endblock %}
+{% block content %}
+<section class="pt-32 pb-24">
+  <div class="max-w-4xl mx-auto px-5">
+    {% include "core/_program.html" %}
+    <div class="no-print mt-5 flex gap-4 text-sm">
+      <button onclick="window.print()" class="underline underline-offset-4 hover:text-gold-600">Print</button>
+      <a class="underline underline-offset-4 hover:text-gold-600" href="{% url 'archive' %}">← All programmes</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

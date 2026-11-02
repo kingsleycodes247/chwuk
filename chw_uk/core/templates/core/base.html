@@ -1,0 +1,104 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en-GB" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="{% static 'core/img/logo.jpg' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ syn.org_name }} · {{ syn.branch }}{% endblock %}</title>
+  <meta name="description" content="{{ syn.org_name }} ({{ syn.short_name }}) {{ syn.branch }} — Shabbat worship every Saturday at {{ syn.address_lines.0 }}, {{ syn.address_lines.1 }}, {{ syn.address_lines.2 }}.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'core/tailwind.css' %}">
+</head>
+<body class="font-sans antialiased">
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 bg-white text-navy-900 px-3 py-2 rounded z-[60]">Skip to content</a>
+
+  <header class="no-print fixed top-0 inset-x-0 z-50 transition-colors" id="nav">
+    <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+      <a href="{% url 'home' %}" class="flex items-center gap-3 text-white">
+        <img src="{% static 'core/img/logo.jpg' %}" alt="{{ syn.org_name }} logo" class="w-10 h-10 rounded-full object-cover border-2 border-gold-400 bg-white">
+        <span class="leading-tight">
+          <span class="block font-serif text-xl font-semibold tracking-wide">CHW {{ syn.branch }}</span>
+          <span class="block text-[10px] uppercase tracking-[.2em] text-white/60">{{ syn.org_name }}</span>
+        </span>
+      </a>
+      <nav class="hidden md:flex items-center gap-7 text-sm text-white/85">
+        <a class="hover:text-gold-400" href="{% url 'home' %}#program">This week</a>
+        <a class="hover:text-gold-400" href="{% url 'home' %}#about">About</a>
+        <a class="hover:text-gold-400" href="{% url 'home' %}#visit">Visit us</a>
+        <a class="hover:text-gold-400" href="{% url 'home' %}#events">Events</a>
+        <a class="hover:text-gold-400" href="{% url 'archive' %}">Past programmes</a>
+        <a class="hover:text-gold-400" href="{% url 'home' %}#contact">Contact</a>
+        <a href="{% url 'admin:login' %}" class="ml-2 border border-white/30 rounded-full px-4 py-1.5 hover:border-gold-400 hover:text-gold-400">Admin login</a>
+      </nav>
+      <button id="menu-btn" class="md:hidden text-white p-2" aria-label="Open menu" aria-expanded="false">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden bg-navy-900 border-t border-white/10 px-5 pb-4 text-white/90 text-sm">
+      <a class="block py-3" href="{% url 'home' %}#program">This week</a>
+      <a class="block py-3" href="{% url 'home' %}#about">About</a>
+      <a class="block py-3" href="{% url 'home' %}#visit">Visit us</a>
+      <a class="block py-3" href="{% url 'home' %}#events">Events</a>
+      <a class="block py-3" href="{% url 'archive' %}">Past programmes</a>
+      <a class="block py-3" href="{% url 'home' %}#contact">Contact</a>
+      <a class="block py-3 text-gold-400" href="{% url 'admin:login' %}">Admin login</a>
+    </div>
+  </header>
+
+  {% if messages %}
+  <div class="fixed top-20 inset-x-0 z-50 px-5 no-print">
+    {% for m in messages %}
+    <div class="max-w-xl mx-auto mb-2 rounded-lg px-4 py-3 text-sm shadow-lg {% if m.tags == 'error' %}bg-red-600 text-white{% else %}bg-emerald-600 text-white{% endif %}" role="status">{{ m }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <main id="main">{% block content %}{% endblock %}</main>
+
+  <footer class="no-print bg-navy-950 text-white/70 mt-0">
+    <div class="max-w-6xl mx-auto px-5 py-12 grid gap-10 md:grid-cols-3 text-sm">
+      <div>
+        <p class="font-serif text-2xl text-white">{{ syn.org_name }}</p>
+        <p class="mt-1 text-gold-400">{{ syn.branch }} branch</p>
+        <p class="mt-4">Shabbat worship every Saturday.</p>
+      </div>
+      <div>
+        <p class="uppercase tracking-widest text-xs text-white/50 mb-3">Find us</p>
+        <address class="not-italic leading-relaxed">
+          {{ syn.venue }}<br>{% for l in syn.address_lines %}{{ l }}{% if not forloop.last %}<br>{% endif %}{% endfor %}
+        </address>
+        <a class="inline-block mt-3 text-gold-400 hover:underline" href="{{ directions_url }}" target="_blank" rel="noopener">Get directions →</a>
+      </div>
+      <div>
+        <p class="uppercase tracking-widest text-xs text-white/50 mb-3">Connect</p>
+        <ul class="space-y-2">
+          {% if site_settings.contact_email %}<li><a class="hover:text-gold-400" href="mailto:{{ site_settings.contact_email }}">{{ site_settings.contact_email }}</a></li>{% endif %}
+          {% if site_settings.contact_phone %}<li><a class="hover:text-gold-400" href="tel:{{ site_settings.contact_phone }}">{{ site_settings.contact_phone }}</a></li>{% endif %}
+          {% if site_settings.whatsapp_link %}<li><a class="hover:text-gold-400" href="{{ site_settings.whatsapp_link }}" target="_blank" rel="noopener">WhatsApp</a></li>{% endif %}
+          {% if site_settings.facebook_url %}<li><a class="hover:text-gold-400" href="{{ site_settings.facebook_url }}" target="_blank" rel="noopener">Facebook</a></li>{% endif %}
+          {% if site_settings.youtube_url %}<li><a class="hover:text-gold-400" href="{{ site_settings.youtube_url }}" target="_blank" rel="noopener">YouTube</a></li>{% endif %}
+          <li><a class="hover:text-gold-400" href="{% url 'home' %}#contact">Send us a message</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/10 py-5 text-center text-xs text-white/50">
+      © {% now "Y" %} {{ syn.org_name }} · {{ syn.branch }}
+      · <a class="hover:text-gold-400" href="{% url 'admin:login' %}">Admin login</a>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const setNav = () => nav.classList.toggle('bg-navy-900/95', window.scrollY > 20);
+    setNav(); window.addEventListener('scroll', setNav, { passive:true });
+    const btn = document.getElementById('menu-btn'), menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', () => { const open = menu.classList.toggle('hidden') === false; btn.setAttribute('aria-expanded', open); });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.add('hidden')));
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    setTimeout(() => document.querySelectorAll('[role=status]').forEach(el => el.remove()), 6000);
+  </script>
+</body>
+</html>

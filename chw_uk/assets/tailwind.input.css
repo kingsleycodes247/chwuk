@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Site-specific styles (moved here from the old inline <style> block) */
+body { background: #faf7f0; color: #0b1f3a; }
+
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+.hero-bg {
+  background:
+    radial-gradient(900px 400px at 85% -10%, rgba(201, 162, 74, .28), transparent 60%),
+    radial-gradient(700px 500px at 0% 100%, rgba(27, 68, 125, .7), transparent 60%),
+    linear-gradient(160deg, #071428, #0b1f3a 55%, #12305a);
+}
+
+.hp { position: absolute; left: -9999px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+@media print {
+  body * { visibility: hidden; }
+  #program-print, #program-print * { visibility: visible; }
+  #program-print { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; }
+  .no-print { display: none !important; }
+}

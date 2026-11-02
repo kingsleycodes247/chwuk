@@ -1,0 +1,4 @@
+Django>=5.0,<6.0
+whitenoise>=6.6
+psycopg[binary]>=3.1   # only needed if you use PostgreSQL
+gunicorn>=21.2         # production server
